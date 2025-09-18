@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import { Platform } from "react-native";
 
 import {
@@ -15,8 +15,17 @@ import {
 
 import { useNavigation } from "@react-navigation/native";
 
+import { AuthContext } from "../../contexts/auth";
+
 function SignIn() {
   const navigation = useNavigation();
+  const { signIn, loading } = useContext(AuthContext);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  async function handleLogin() {
+    await signIn(email, password);
+  }
 
   return (
     <Background>
@@ -24,6 +33,8 @@ function SignIn() {
         <Logo source={require("../../assets/Logo.png")} />
         <AreaInput>
           <Input
+            value={email}
+            onChangeText={setEmail}
             placeholder="Email"
             autoCorrect={false}
             autoCapitalize="none"
@@ -31,6 +42,9 @@ function SignIn() {
         </AreaInput>
         <AreaInput>
           <Input
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry={true}
             placeholder="Senha"
             autoCorrect={false}
             autoCapitalize="none"
@@ -38,7 +52,7 @@ function SignIn() {
         </AreaInput>
 
         <SubmitButton activeOpacity={0.8}>
-          <SubmitText>Acessar</SubmitText>
+          <SubmitText onPress={handleLogin}>Acessar</SubmitText>
         </SubmitButton>
 
         <Link onPress={() => navigation.navigate("SignUp")}>
