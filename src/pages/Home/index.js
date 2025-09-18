@@ -1,10 +1,18 @@
-import React from "react";
-import { View, Text } from "react-native";
+import React, { useContext } from "react";
+import { View, Text, Button } from "react-native";
+
+import { AuthContext } from "../../contexts/auth";
+import { Container, SubmitButton, SubmitText } from "../SignIn/styles";
 
 export default function Home() {
+  const { signOut, user } = useContext(AuthContext);
   return (
-    <View>
+    <Container>
       <Text>Home Page</Text>
-    </View>
+      <Text>Olá, {user.name}!</Text>
+      <SubmitButton title="Logout" onPress={signOut}>
+        <SubmitText>Logout</SubmitText>
+      </SubmitButton>
+    </Container>
   );
 }

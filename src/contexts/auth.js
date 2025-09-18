@@ -71,6 +71,12 @@ function AuthProvider({ children }) {
     }
   }
 
+  async function signOut() {
+    await AsyncStorage.clear().then(() => {
+      setUser(null);
+    });
+  }
+
   if (loading) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -81,7 +87,7 @@ function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ signed: !!user, user, signUp, signIn, loading }}
+      value={{ signed: !!user, user, signUp, signIn, signOut, loading }}
     >
       {children}
     </AuthContext.Provider>
