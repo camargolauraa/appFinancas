@@ -1,6 +1,8 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import api from "../services/api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { View } from "react-native";
 
 export const AuthContext = createContext({});
 
@@ -9,6 +11,24 @@ function AuthProvider({ children }) {
   const [loading, setLoading] = useState(false);
 
   const navigation = useNavigation();
+
+  useEffect(() => {
+    async function loadStorageData() {
+      const token = await AsyncStorage.getItem("@App:token");
+      if (token) {
+        const response = await api
+          .get("/me", {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+          .catch(() => {
+            setUser(null);
+          });
+        api.defaults.headers["Authorization"] = `Bearer ${token}`;
+        setUser(response.data);
+      }
+    }
+    loadStorageData();
+  }, []);
 
   async function signUp(email, password, nome) {
     setLoading(true);
@@ -39,6 +59,8 @@ function AuthProvider({ children }) {
       const { id, name, token } = response.data;
       const data = { id, name, email, token };
 
+      await AsyncStorage.setItem("@App:token", token);
+
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
 
       setUser({ id, name, email });
@@ -47,6 +69,14 @@ function AuthProvider({ children }) {
       console.error("Erro ao fazer login:", error);
       setLoading(false);
     }
+  }
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color="#131313" />
+      </View>
+    );
   }
 
   return (
