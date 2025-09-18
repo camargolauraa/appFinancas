@@ -1,3 +1,6 @@
+// Estrutura principal da aplicação, configurando navegação, autenticação e aparência da barra de status.
+
+import "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 
