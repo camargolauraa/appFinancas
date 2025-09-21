@@ -2,7 +2,7 @@ import React, { createContext, useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import api from "../services/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { View } from "react-native";
+import { View, ActivityIndicator } from "react-native";
 
 export const AuthContext = createContext({});
 

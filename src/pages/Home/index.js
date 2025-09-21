@@ -5,7 +5,7 @@ import Header from "../../components/Header";
 import { Background, ListBalance, Area, Title, List } from "./styles";
 
 import api from "../../services/api";
-import { format } from "date-fns";
+import { format, set } from "date-fns";
 
 import { useIsFocused } from "@react-navigation/native";
 import BalanceItem from "../../components/BalanceItem";
@@ -17,12 +17,20 @@ export default function Home() {
   const isFocused = useIsFocused();
 
   const [listBalance, setListBalance] = useState([]);
+  const [movements, setMovements] = useState([]);
+
   const [dateMovement, setDateMovement] = useState(new Date());
 
   useEffect(() => {
     let isActive = true;
     async function getMovements() {
       let dateFormated = format(dateMovement, "dd/MM/yyyy");
+
+      const receives = await api.get("/receives", {
+        params: {
+          date: dateFormated,
+        },
+      });
 
       const balance = await api.get("/balance", {
         params: {
@@ -31,6 +39,7 @@ export default function Home() {
       });
 
       if (isActive) {
+        setMovements(receives.data);
         setListBalance(balance.data);
       }
     }
@@ -58,14 +67,15 @@ export default function Home() {
         <TouchableOpacity>
           <Icon name="event" color="#121212" size={30} />
         </TouchableOpacity>
-        <Title>últimas Movimentações</Title>
+        <Title>Últimas Movimentações</Title>
       </Area>
 
       <List
-        data={listBalance}
+        data={movements}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <HistoricList />}
+        renderItem={({ item }) => <HistoricList data={item} />}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 20 }}
       />
     </Background>
   );

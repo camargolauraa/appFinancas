@@ -1,5 +1,38 @@
 import styled from "styled-components/native";
 
-export const Container = styled.View``;
+export const Container = styled.View`
+  background: #f0f3ff;
+  border-radius: 4px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 14px;
+  padding: 12px;
+`;
 
-export const TypeText = styled.Text``;
+export const TypeText = styled.Text`
+  color: #fff;
+  font-size: 16px;
+  font-style: italic;
+`;
+
+export const Type = styled.View`
+  flex-direction: row;
+`;
+
+export const IconView = styled.View`
+  flex-direction: row;
+  background-color: ${(props) =>
+    props.tipo === "despesa" ? "#E83F5B" : "#049301"};
+  padding-bottom: 4px;
+  padding-top: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+  border-radius: 4px;
+  margin-bottom: 2px;
+`;
+
+export const ValueText = styled.Text`
+  color: #121212;
+  font-size: 22px;
+  font-weight: bold;
+`;
