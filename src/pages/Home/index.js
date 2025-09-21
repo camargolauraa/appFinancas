@@ -27,7 +27,9 @@ export default function Home() {
   useEffect(() => {
     let isActive = true;
     async function getMovements() {
-      let dateFormated = format(dateMovement, "dd/MM/yyyy");
+      let date = new Date(dateMovement);
+      let onlyDate = date.valueOf() + date.getTimezoneOffset() * 60000;
+      let dateFormated = format(onlyDate, "dd/MM/yyyy");
 
       const receives = await api.get("/receives", {
         params: {

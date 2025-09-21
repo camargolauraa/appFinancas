@@ -10,20 +10,26 @@ import { View } from "react-native";
 
 import { Calendar, LocaleConfig } from "react-native-calendars";
 
+import ptBR from "./localeCalendar";
+
+LocaleConfig.locales["pt-br"] = ptBR;
+LocaleConfig.defaultLocale = "pt-br";
+
 export default function CalendarModal({ setVisible, handleFilter }) {
   const [date, setDate] = useState(new Date());
   const [markedDates, setMarkedDates] = useState({});
-
   function handleOnDayPress(date) {
     setDate(date.dateString);
 
-    let markedDates = {};
-    markedDates[date.dateString] = {
-      selected: true,
-      selectedColor: "#3b3dbf",
-      selectedTextColor: "#fff",
+    const newMarkedDates = {
+      [date.dateString]: {
+        selected: true,
+        selectedColor: "#3b3dbf",
+        selectedTextColor: "#fff",
+      },
     };
-    setMarkedDates(markedDates);
+
+    setMarkedDates(newMarkedDates);
   }
 
   function handleFilterDate() {
