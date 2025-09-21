@@ -24,6 +24,9 @@ export default function AppRoutes() {
         drawerActiveTintColor: "#fff",
         drawerInactiveBackgroundColor: "#f0f4ff",
         drawerInactiveTintColor: "#121212",
+        drawerItemStyle: {
+          marginVertical: 8,
+        },
       }}
     >
       <Drawer.Screen name="Home" component={Home} />
