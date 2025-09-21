@@ -5,6 +5,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 
 import Home from "../pages/Home";
 import New from "../pages/New";
+import Profile from "../pages/Profile";
 
 const Drawer = createDrawerNavigator();
 
@@ -13,7 +14,10 @@ export default function AppRoutes() {
     <Drawer.Navigator
       screenOptions={{
         headerShown: false,
-        drawerStyle: { backgroundColor: "#fff", paddingTop: 20 },
+        drawerStyle: {
+          backgroundColor: "#fff",
+          paddingTop: 20,
+        },
         drawerActiveBackgroundColor: "#3b3dbf",
         drawerActiveTintColor: "#fff",
         drawerInactiveBackgroundColor: "#f0f4ff",
@@ -23,6 +27,8 @@ export default function AppRoutes() {
       <Drawer.Screen name="Home" component={Home} />
 
       <Drawer.Screen name="Registrar" component={New} />
+
+      <Drawer.Screen name="Perfil" component={Profile} />
     </Drawer.Navigator>
   );
 }
