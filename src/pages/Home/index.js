@@ -5,7 +5,7 @@ import Header from "../../components/Header";
 import { Background, ListBalance, Area, Title, List } from "./styles";
 
 import api from "../../services/api";
-import { format, set } from "date-fns";
+import { format, set, setDate } from "date-fns";
 
 import { useIsFocused } from "@react-navigation/native";
 import BalanceItem from "../../components/BalanceItem";
@@ -49,7 +49,18 @@ export default function Home() {
     return () => {
       isActive = false;
     };
-  }, [isFocused]);
+  }, [isFocused, dateMovement]);
+
+  async function handleDeleteItem(id) {
+    try {
+      await api.delete("/receives/delete", {
+        params: { item_id: id },
+      });
+      setDateMovement(new Date());
+    } catch (error) {
+      console.log("Erro ao deletar item");
+    }
+  }
 
   return (
     <Background>
@@ -73,7 +84,9 @@ export default function Home() {
       <List
         data={movements}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <HistoricList data={item} />}
+        renderItem={({ item }) => (
+          <HistoricList data={item} deleteItem={handleDeleteItem} />
+        )}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 20 }}
       />
